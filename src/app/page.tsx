@@ -1,95 +1,56 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import axios from "axios";
+import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
 
-export default function Home() {
+import Typography from '@mui/material/Typography';
+import Link from "next/link";
+
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
+export default async function Home() {
+  const response = await axios.get<Post[]>('https://jsonplaceholder.typicode.com/posts');
+  const posts = response.data;
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+    <main>
+      <Box sx={{ width: '100%', p: 4, bgcolor: '#f3f4f6' }}>
+        <Box sx={{ maxWidth: 800, mx: 'auto', my: 4 }}>
+          {posts.map((post: Post, index: number) => (
+            <Card
+              key={index}
+              variant="outlined"
+              sx={{
+                mb: 3,
+                p: 2,
+                boxShadow: 3,
+                borderRadius: 2,
+                cursor: 'pointer',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                '&:hover': {
+                  transform: 'scale(1.02)',
+                  boxShadow: 6,
+                },
+              }}
+            >
+              <Link href={`/posts/${post.userId}`}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Typography variant="h5" component="div" sx={{ fontFamily: 'Lora, serif' }}>
+                    {post.title.charAt(0).toUpperCase() + post.title.slice(1)}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontFamily: 'Open Sans, sans-serif' }}>
+                    {post.body.charAt(0).toUpperCase() + post.body.slice(1)}
+                  </Typography>
+                </Box>
+              </Link>
+            </Card>
+          ))}
+        </Box>
+      </Box>
     </main>
   );
 }
