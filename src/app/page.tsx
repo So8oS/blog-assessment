@@ -18,9 +18,8 @@ export default async function Home() {
 
   return (
     <main>
-      <Box sx={{ width: '100%', p: 4, bgcolor: '#f3f4f6', fontFamily: 'Lora, serif'  }}>
-        <h1 className="text-5xl">Posts</h1>
-        
+      <Box sx={{ width: '100%', p: 4, fontFamily: 'Lora, serif'  }}>
+        <Typography variant="h2" component="div" sx={{ fontFamily: 'Lora, serif',textAlign: 'center' }}>Posts</Typography>
         <Box sx={{ maxWidth: 800, mx: 'auto', my: 4 }}>
           {posts.map((post: Post) => (
             <Card
