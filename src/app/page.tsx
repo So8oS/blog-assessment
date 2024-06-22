@@ -18,17 +18,18 @@ export default async function Home() {
 
   return (
     <main>
-      <Box sx={{ width: '100%', p: 4, bgcolor: '#f3f4f6' }}>
+      <Box sx={{ width: '100%', p: 4, bgcolor: '#f3f4f6', fontFamily: 'Lora, serif'  }}>
+        <h1 className="text-5xl">Posts</h1>
+        
         <Box sx={{ maxWidth: 800, mx: 'auto', my: 4 }}>
-          {posts.map((post: Post, index: number) => (
+          {posts.map((post: Post) => (
             <Card
-              key={index}
+              key={post.id}
               variant="outlined"
               sx={{
                 mb: 3,
                 p: 2,
                 boxShadow: 3,
-                borderRadius: 2,
                 cursor: 'pointer',
                 transition: 'transform 0.2s, box-shadow 0.2s',
                 '&:hover': {
@@ -37,7 +38,7 @@ export default async function Home() {
                 },
               }}
             >
-              <Link href={`/posts/${post.userId}`}>
+              <Link href={`/posts/${post.id}`}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <Typography variant="h5" component="div" sx={{ fontFamily: 'Lora, serif' }}>
                     {post.title.charAt(0).toUpperCase() + post.title.slice(1)}
